@@ -1,0 +1,36 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam shadowing false
+skinparam usecase {
+  BackgroundColor #EAF2F8
+  BorderColor #245A81
+  ArrowColor #34495E
+}
+actor "Étudiant" as E
+actor "Responsable\nrésidence" as R
+rectangle "Système de gestion\nde la résidence" {
+  usecase "Déposer une demande\nd'hébergement" as UC1
+  usecase "Consulter le statut\nde sa demande" as UC2
+  usecase "Consulter son attribution" as UC3
+  usecase "Enregistrer une demande" as UC4
+  usecase "Accepter / refuser\nune demande" as UC5
+  usecase "Attribuer une chambre" as UC6
+  usecase "Vérifier les places\ndisponibles" as UC7
+  usecase "Consulter les chambres\nlibres / occupées" as UC8
+  usecase "Enregistrer le départ\nd'un étudiant" as UC9
+  usecase "Consulter l'historique\ndes occupations" as UC10
+  usecase "Afficher les statistiques\net le taux d'occupation" as UC11
+}
+E -- UC1
+E -- UC2
+E -- UC3
+R -- UC4
+R -- UC5
+R -- UC6
+R -- UC8
+R -- UC9
+R -- UC10
+R -- UC11
+UC6 .> UC7 : <<include>>
+@enduml

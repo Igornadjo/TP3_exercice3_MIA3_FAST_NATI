@@ -1,0 +1,61 @@
+@startuml
+title Gestion du personnel universitaire - version 2
+
+class Universite {
+  - nomUniversite : string
+  - equipe : vector<Personnel*>
+  --
+  + ajouter(p : Personnel*) : void
+  + afficherTous() : void
+  + masseSalariale() : double
+  + plusHautSalaire() : Personnel*
+}
+
+abstract class Personnel {
+  # matricule : string
+  # nom : string
+  # prenom : string
+  # salaireBase : double
+  --
+  + {abstract} calculerSalaire() : double
+  + {abstract} getType() : string
+  + {abstract} afficherDetails() : void
+  + afficher() : void
+  + ~Personnel()
+}
+
+class Professeur {
+  - heuresSup : int
+  - tauxHoraire : double
+  - indemniteLogement : double
+  --
+  + calculerSalaire() : double
+  + getType() : string
+  + afficherDetails() : void
+}
+
+class Administratif {
+  - tauxRendement : double
+  - primeTransport : double
+  --
+  + calculerSalaire() : double
+  + getType() : string
+  + afficherDetails() : void
+}
+
+class TechnicienLabo {
+  - primeRisque : double
+  - nbAstreintes : int
+  - montantAstreinte : double
+  --
+  + calculerSalaire() : double
+  + getType() : string
+  + afficherDetails() : void
+}
+
+Universite o-- "0..*" Personnel : equipe
+Personnel <|-- Professeur
+Personnel <|-- Administratif
+Personnel <|-- TechnicienLabo
+
+@enduml

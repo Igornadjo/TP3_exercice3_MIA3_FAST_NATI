@@ -1,0 +1,87 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam class {
+  BackgroundColor #F7FBFE
+  BorderColor #245A81
+  ArrowColor #34495E
+}
+class Residence {
+  - idResidence : int
+  - nom : string
+  - localisation : string
+  + ajouterBatiment(b : Batiment) : void
+  + calculerTauxOccupation() : double
+  + afficherStatistiques() : void
+}
+class Batiment {
+  - idBatiment : int
+  - nom : string
+  - nombreEtages : int
+  + ajouterChambre(c : Chambre) : void
+  + listerChambres() : void
+}
+class Chambre {
+  - numero : string
+  - capacite : int
+  + calculerOccupantsActuels() : int
+  + calculerPlacesDisponibles() : int
+  + estDisponible() : bool
+}
+class Etudiant {
+  - matricule : string
+  - nom : string
+  - prenom : string
+  - sexe : string
+  - telephone : string
+  + deposerDemande() : DemandeHebergement
+  + consulterHistorique() : void
+}
+class DemandeHebergement {
+  - idDemande : int
+  - dateDemande : Date
+  - motif : string
+  - statut : StatutDemande
+  + accepter() : void
+  + refuser() : void
+  + annuler() : void
+}
+class Attribution {
+  - idAttribution : int
+  - dateEntree : Date
+  - dateSortie : Date
+  - statut : StatutAttribution
+  + enregistrerDepart(date : Date) : void
+  + estEnCours() : bool
+}
+enum StatutDemande {
+  EN_ATTENTE
+  ACCEPTEE
+  REFUSEE
+  ANNULEE
+  TRAITEE
+}
+enum StatutAttribution {
+  EN_COURS
+  TERMINEE
+}
+Residence "1" *-- "1..*" Batiment : comprend
+Batiment "1" *-- "1..*" Chambre : contient
+Etudiant "1" -- "0..*" DemandeHebergement : dépose
+Etudiant "1" -- "0..*" Attribution : bénéficie de
+Chambre "1" -- "0..*" Attribution : historique
+DemandeHebergement "1" -- "0..1" Attribution : peut aboutir à
+Attribution --> StatutAttribution
+DemandeHebergement --> StatutDemande
+note right of Chambre
+  Contrainte :
+  nombre d'attributions EN_COURS
+  simultanées <= capacite
+end note
+note bottom of Attribution
+  Une attribution terminée est conservée
+  pour l'historique. Les périodes actives
+  d'une chambre ne doivent pas dépasser
+  sa capacité.
+end note
+@enduml

@@ -1,0 +1,26 @@
+@startuml
+autonumber
+actor "Responsable" as R
+participant "Système" as S
+participant "DemandeHebergement" as D
+participant "Chambre" as C
+participant "Attribution" as A
+R -> S : sélectionnerDemande(idDemande)
+S -> D : rechercher(idDemande)
+D --> S : demande + statut
+alt Demande inexistante ou non acceptée
+  S --> R : afficherErreur("Demande non éligible")
+else Demande acceptée
+  R -> S : choisirChambre(numero)
+  S -> C : calculerPlacesDisponibles()
+  C --> S : placesDisponibles
+  alt placesDisponibles > 0
+    S -> A : créer(etudiant, chambre, dateEntree)
+    A --> S : attribution créée
+    S -> D : marquerCommeTraitee()
+    S --> R : confirmerAttribution()
+  else Chambre complète
+    S --> R : refuser("Aucune place disponible")
+  end
+end
+@enduml

@@ -1,0 +1,22 @@
+@startuml
+skinparam shadowing false
+skinparam state {
+  BackgroundColor #EAF2F8
+  BorderColor #245A81
+}
+[*] --> EnAttente : dépôt de la demande
+EnAttente --> Acceptee : décision favorable
+EnAttente --> Refusee : décision défavorable
+EnAttente --> Annulee : annulation par l'étudiant
+Acceptee --> Traitee : chambre attribuée
+Acceptee --> Annulee : annulation avant attribution
+Refusee --> [*]
+Annulee --> [*]
+Traitee --> [*]
+note right of Acceptee
+  Acceptée ne signifie pas encore
+  qu'une chambre est attribuée.
+  L'attribution dépend des places
+  disponibles.
+end note
+@enduml
